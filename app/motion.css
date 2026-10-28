@@ -1,0 +1,91 @@
+/* Main site er animation — halka ar druto, jate phone e o smooth chole ar order kome na */
+
+@keyframes s-rise { from { opacity: 0; transform: translateY(26px); } }
+@keyframes s-zoom { from { opacity: 0; transform: scale(.92); } }
+@keyframes s-shimmer { to { background-position: 200% center; } }
+@keyframes s-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes s-shine { from { left: -60%; } to { left: 130%; } }
+@keyframes s-ping { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .6); } 100% { box-shadow: 0 0 0 18px rgba(37, 211, 102, 0); } }
+@keyframes s-twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.85); } }
+@keyframes s-wiggle { 0%, 88%, 100% { transform: rotate(0); } 91% { transform: rotate(-2deg); } 94% { transform: rotate(2deg); } 97% { transform: rotate(-1deg); } }
+@keyframes s-glow { 0%, 100% { box-shadow: 0 0 0 1px rgba(245, 196, 81, .25), 0 0 18px rgba(245, 196, 81, .1); } 50% { box-shadow: 0 0 0 1px rgba(245, 196, 81, .6), 0 0 34px rgba(245, 196, 81, .3); } }
+@keyframes s-pop { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+/* ---- Header upor theke name ---- */
+@keyframes s-drop { from { opacity: 0; transform: translateY(-20px); } }
+.header, .topbar { animation: s-drop .5s ease backwards; }
+/* Pash theke asha jinish screen er baire gele jate dan-bam scroll na hoy */
+html, body { overflow-x: clip; }
+
+/* ---- Sonali highlight lekhar upor diye alo chole ---- */
+.grad { background-size: 200% auto; animation: s-shimmer 4s linear infinite; }
+
+/* ---- Order button: chamak upor diye chole + majhe majhe nore ---- */
+.btn { position: relative; overflow: hidden; }
+.btn:not(:disabled)::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .6), transparent); transform: skewX(-20deg);
+  animation: s-shine 3s ease-in-out infinite;
+}
+.btn-lg:not(:disabled), .btn-block:not(:disabled) { animation: pulse 2.4s infinite, s-wiggle 5s ease-in-out infinite; }
+.btn:active { transform: scale(.96); }
+
+/* ---- Dam: notun dam jhilmil, purono dam katা ---- */
+@keyframes s-text-glow { 0%, 100% { text-shadow: 0 0 0 rgba(245, 196, 81, 0); transform: scale(1); } 50% { text-shadow: 0 0 18px rgba(245, 196, 81, .7); transform: scale(1.06); } }
+.price-new { display: inline-block; animation: s-text-glow 2.2s ease-in-out infinite; }
+.save { display: inline-block; animation: s-pop .6s .5s cubic-bezier(.3, 1.6, .5, 1) backwards; }
+.price-card { animation: s-glow 3s ease-in-out infinite; }
+
+/* ---- Feature: hover e icon laphay ---- */
+.feature { transition: transform .3s ease, box-shadow .3s ease; }
+.feature:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0, 0, 0, .3); }
+.feature-icon { display: inline-block; transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.feature:hover .feature-icon { transform: scale(1.25) rotate(-10deg); }
+
+/* ---- Perfume card: hover e upore uthe sonali alo, chobi zoom ---- */
+.ex-card { transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, border-color .35s ease; }
+.ex-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 0, 0, .45), 0 0 26px rgba(245, 196, 81, .18); border-color: rgba(245, 196, 81, .5); }
+.ex-card .ex-img img { transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.ex-card:hover .ex-img img { transform: scale(1.1) rotate(-1.5deg); }
+.ex-card.active { animation: s-glow 2.6s ease-in-out infinite; }
+
+/* ---- Boro chobi (spotlight, package, gift) halka bhashe ---- */
+.spot-img img, .package-img img, .gift-img img { animation: s-float 5s ease-in-out infinite; }
+.spot-img img { animation: fadeIn .4s, s-float 5s ease-in-out .4s infinite; }
+
+/* ---- Package / compare: hover e upore ---- */
+.package-card, .compare > * { transition: transform .3s ease, box-shadow .3s ease; }
+.package-card:hover, .compare > *:hover { transform: translateY(-5px); box-shadow: 0 18px 38px rgba(0, 0, 0, .35); }
+.compare-item .mark { transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.compare-item:hover .mark { transform: scale(1.3) rotate(360deg); }
+
+/* ---- Rating er tara jhilmil ---- */
+.stars { display: inline-block; animation: s-twinkle 1.8s ease-in-out infinite; }
+
+/* ---- WhatsApp button er charpashe dheu ---- */
+.float-wa { animation: s-ping 1.8s ease-out infinite; }
+
+/* ---- Form er package bachai: hover/select e chamak ---- */
+.package-info, .radio { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.radio:hover { transform: translateY(-2px); }
+.radio.active { box-shadow: 0 0 0 3px rgba(245, 196, 81, .2); }
+.success-icon { animation: s-pop .7s cubic-bezier(.3, 1.6, .5, 1) backwards; }
+
+/* ---- Bam / dan theke asha (Reveal.js class dey) ---- */
+/* Reveal cholar agei prothom screen er jinish lukano (RevealInit.js) — dekha diye hariye jaoa thamay */
+.rv-js :is(.hero-info > *, .gallery, .section-head > *, .ex-card, .spot-img, .spot-body > *, .gift-img,
+  .gift-grid > div > *, .compare-head, .compare-item, .trust-pill, .offer-strip, .compare + .center, .package-img, .package-body > *, .cod-banner > *, .checkout, .footer > *) { opacity: 0; }
+/* Screen er baire thakle lukano + pashe shora; screen e ashlei (rv-in) slide kore jaygay boshe — protibar */
+.rv:not(.rv-in) { opacity: 0; }
+.rv-l:not(.rv-in) { transform: translateX(-140px); }
+.rv-r:not(.rv-in) { transform: translateX(140px); }
+.rv-up:not(.rv-in) { transform: translateY(50px) scale(.96); }
+/* Slide er shomoy-i shudhu ei transition (sheshe soriye deya hoy, tai card er nijer hover thik thake) */
+.rv.rv-anim {
+  transition: opacity .7s ease var(--rv-d, 0ms), transform .9s cubic-bezier(.34, 1.35, .5, 1) var(--rv-d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+}

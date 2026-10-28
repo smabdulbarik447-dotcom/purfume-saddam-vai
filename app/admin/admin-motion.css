@@ -1,0 +1,306 @@
+/* Admin animation — page khulle card gulo uthe ashe, gradient chole, chart bere othe.
+   Mouse rakhle kono kichu lafay/nore na. Shudhu DASHBOARD er card e ekta unique effect (niche, HoverFX.js). */
+
+@keyframes adm-rise { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+@keyframes adm-pop { 0% { opacity: 0; transform: scale(.85) translateY(10px); } 70% { transform: scale(1.03); } }
+@keyframes adm-flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes adm-grow { from { transform: scaleY(0); } }
+@keyframes adm-spin-in { from { opacity: 0; transform: rotate(-200deg) scale(.6); } }
+@keyframes adm-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes adm-glow { 0%, 100% { filter: drop-shadow(0 0 0 rgba(250, 204, 21, 0)); } 50% { filter: drop-shadow(0 0 12px rgba(250, 204, 21, .55)); } }
+@keyframes adm-ping { 0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, .6); } 80%, 100% { box-shadow: 0 0 0 9px rgba(244, 63, 94, 0); } }
+@keyframes adm-wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
+@keyframes adm-blink { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@keyframes adm-slide { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes adm-rainbow { to { background-position: 200% 50%; } }
+@keyframes adm-aurora {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(6vw, -4vh) scale(1.15); }
+  66% { transform: translate(-4vw, 5vh) scale(.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes adm-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+@keyframes adm-drift { to { background-position: 0 -400px, 0 -260px; } }
+@keyframes adm-spin { to { transform: rotate(360deg); } }
+@keyframes adm-sweep { 0% { left: -40%; } 100% { left: 140%; } }
+@keyframes adm-bounce-in { 0% { opacity: 0; transform: scale(.3); } 60% { opacity: 1; transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes adm-border-flow { to { background-position: 300% 0; } }
+
+/* ---- Page er shob block ek ek kore uthe ashe ---- */
+.adm-main > * { animation: adm-rise .55s cubic-bezier(.2, .8, .2, 1) backwards; }
+.adm-main > *:nth-child(2) { animation-delay: .06s; }
+.adm-main > *:nth-child(3) { animation-delay: .12s; }
+.adm-main > *:nth-child(4) { animation-delay: .18s; }
+.adm-main > *:nth-child(5) { animation-delay: .24s; }
+.adm-main > *:nth-child(n + 6) { animation-delay: .3s; }
+
+/* ---- Page title: rongdhonu rong lekhar upor diye chole ---- */
+.adm-title { background-size: 200% auto !important; animation: adm-rainbow 4s linear infinite; }
+
+/* ---- Pichoner aurora — rongin alo dhire dhire bhashe ---- */
+.adm-main { position: relative; isolation: isolate; }
+.adm-main::before, .adm-main::after {
+  content: ""; position: fixed; z-index: -1; pointer-events: none; border-radius: 50%; filter: blur(70px); opacity: .45;
+}
+.adm-main::before {
+  width: 420px; height: 420px; top: -80px; right: 6%;
+  background: radial-gradient(circle, rgba(192, 38, 211, .55), transparent 70%);
+  animation: adm-aurora 18s ease-in-out infinite;
+}
+.adm-main::after {
+  width: 380px; height: 380px; bottom: -60px; left: 30%;
+  background: radial-gradient(circle, rgba(250, 204, 21, .45), transparent 70%);
+  animation: adm-aurora 22s ease-in-out -8s infinite reverse;
+}
+
+/* ---- Welcome banner: cholonto gradient, tara, alor dag, haat nara, ring ---- */
+.dash-hero { background-size: 220% 220% !important; animation: adm-rise .6s backwards, adm-flow 12s ease-in-out infinite; }
+.dash-hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 90px 120px, #ffe08a, transparent),
+    radial-gradient(2px 2px at 160px 60px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 230px 150px, #f0abfc, transparent),
+    radial-gradient(1px 1px at 300px 40px, #fff, transparent);
+  background-size: 320px 200px, 260px 180px;
+  animation: adm-drift 30s linear infinite, adm-twinkle 3s ease-in-out infinite;
+}
+.dash-hero > * { position: relative; z-index: 1; }
+.dash-hero-text { position: relative; }
+.dash-hero .dash-hero-text::after {
+  content: ""; position: absolute; top: -40px; bottom: -40px; width: 120px; left: -40%; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .18), transparent); transform: skewX(-20deg);
+  animation: adm-sweep 5s ease-in-out 1s infinite;
+}
+.dash-greet { display: inline-block; transform-origin: 70% 80%; animation: adm-wave 2.4s ease-in-out .6s 2; }
+.dash-big b { display: inline-block; animation: adm-pop .7s .25s backwards; }
+.dash-ring { position: relative; animation: adm-spin-in .9s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
+.dash-ring.green { animation-delay: .35s; }
+.dash-ring::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 0deg, transparent 0 70%, rgba(255, 224, 138, .9) 85%, transparent 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  animation: adm-spin 3s linear infinite;
+}
+.hero-pending { animation: adm-blink 1.6s ease-in-out infinite; }
+
+/* ---- KPI card: pop kore ashe, gradient chole, icon er charpashe ring ghore ---- */
+.kpi {
+  background-size: 200% 200% !important;
+  animation: adm-pop .6s cubic-bezier(.2, .8, .2, 1) backwards, adm-flow 9s ease-in-out infinite;
+  position: relative; overflow: hidden;
+}
+.kpi:nth-child(2) { animation-delay: .07s, 0s; }
+.kpi:nth-child(3) { animation-delay: .14s, 0s; }
+.kpi:nth-child(4) { animation-delay: .21s, 0s; }
+.kpi:nth-child(5) { animation-delay: .28s, 0s; }
+.kpi:nth-child(6) { animation-delay: .35s, 0s; }
+.kpi:nth-child(7) { animation-delay: .42s, 0s; }
+.kpi-ico { position: relative; }
+.kpi-ico::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 16px; pointer-events: none;
+  border: 2px dashed rgba(255, 255, 255, .45); animation: adm-spin 10s linear infinite;
+}
+.kpi em.up, .kpi em.down { animation: adm-bounce-in .6s .8s backwards; }
+
+/* ---- Chart: bar gulo niche theke bere othe, donut ghure ashe ---- */
+.bars2-pair span { transform-origin: bottom; animation: adm-grow .8s cubic-bezier(.2, .8, .2, 1) backwards; }
+.bars2-col:nth-child(1) span { animation-delay: .2s; }
+.bars2-col:nth-child(2) span { animation-delay: .24s; }
+.bars2-col:nth-child(3) span { animation-delay: .28s; }
+.bars2-col:nth-child(4) span { animation-delay: .32s; }
+.bars2-col:nth-child(5) span { animation-delay: .36s; }
+.bars2-col:nth-child(6) span { animation-delay: .4s; }
+.bars2-col:nth-child(7) span { animation-delay: .44s; }
+.bars2-col:nth-child(8) span { animation-delay: .48s; }
+.bars2-col:nth-child(9) span { animation-delay: .52s; }
+.bars2-col:nth-child(10) span { animation-delay: .56s; }
+.bars2-col:nth-child(11) span { animation-delay: .6s; }
+.bars2-col:nth-child(12) span { animation-delay: .64s; }
+.bars2-col:nth-child(13) span { animation-delay: .68s; }
+.bars2-col:nth-child(14) span { animation-delay: .72s; }
+.bars2-col:nth-child(15) span { animation-delay: .76s; }
+.bars2-val { animation: adm-pop .5s .9s backwards; }
+.donut { animation: adm-spin-in 1s cubic-bezier(.2, .8, .2, 1) .25s backwards; }
+
+/* ---- Panel / box er uporer rongin dag: cholonto rongdhonu ---- */
+.panel::before, .adm-box::before {
+  background: linear-gradient(90deg, #7c3aed, #ec4899, #f97316, #facc15, #10b981, #3b82f6, #7c3aed) !important;
+  background-size: 300% 100% !important; animation: adm-border-flow 6s linear infinite;
+}
+
+/* ---- Order page: summary box ar order card ek ek kore ashe ---- */
+.order-summary > div { animation: adm-pop .5s backwards; }
+.order-summary > div:nth-of-type(2) { animation-delay: .06s; }
+.order-summary > div:nth-of-type(3) { animation-delay: .12s; }
+.order-summary > div:nth-of-type(4) { animation-delay: .18s; }
+.order-summary > div:nth-of-type(5) { animation-delay: .24s; }
+.order { animation: adm-rise .45s ease backwards; }
+.order:nth-child(2) { animation-delay: .05s; }
+.order:nth-child(3) { animation-delay: .1s; }
+.order:nth-child(4) { animation-delay: .15s; }
+.order:nth-child(5) { animation-delay: .2s; }
+.order:nth-child(n + 6) { animation-delay: .25s; }
+.top-list li, .recent-scroll tr, .recent-scroll li { animation: adm-slide .45s ease backwards; }
+.adm .badge[class*="st-"], .adm .chip[class*="st-"] { animation: adm-bounce-in .5s .2s backwards; }
+
+/* ---- Sidebar: logo bhashe, menu slide kore ashe, active menu e sonali alo, badge dhukdhuk ---- */
+.adm-logo-img { animation: adm-float 4s ease-in-out infinite, adm-glow 4s ease-in-out infinite; }
+.adm-nav a { animation: adm-slide .4s ease backwards; }
+.adm-nav a:nth-child(2) { animation-delay: .03s; }
+.adm-nav a:nth-child(3) { animation-delay: .06s; }
+.adm-nav a:nth-child(4) { animation-delay: .09s; }
+.adm-nav a:nth-child(5) { animation-delay: .12s; }
+.adm-nav a:nth-child(6) { animation-delay: .15s; }
+.adm-nav a:nth-child(7) { animation-delay: .18s; }
+.adm-nav a:nth-child(8) { animation-delay: .21s; }
+.adm-nav a:nth-child(n + 9) { animation-delay: .24s; }
+.adm-nav a.active { position: relative; overflow: hidden; }
+.adm-nav a.active::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 60px; left: -40%; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 224, 138, .28), transparent); transform: skewX(-20deg);
+  animation: adm-sweep 3.2s ease-in-out infinite;
+}
+.nav-badge { animation: adm-ping 1.8s ease-out infinite; }
+
+/* ---- Jhuki customer (lal) er courier hishab halka dhukdhuk kore ---- */
+.chist.bad { animation: adm-ping 2s ease-out infinite; }
+
+/* ---- Mouse rakhle kono jinish nore na (purono theme er upore uthe asha o bondho) ---- */
+.adm .kpi:hover, .adm .adm-btn:hover, .adm .adm-status .st:hover { transform: none; }
+
+/* =================== Sob page: mouse rakhle effect — kichu nore na, shudhu alo / rong / chamak =================== */
+@keyframes hv-shine { from { left: -60%; } to { left: 130%; } }
+@keyframes hv-ring { 0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, .45); } 100% { box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); } }
+
+/* Box / card / order: charpashe begoni alor border + rongin chhaya */
+.adm-box, .panel, .adm-card, .content-item, .wa-preview, .order, .order-summary > div, .side-promo {
+  transition: box-shadow .35s ease, border-color .35s ease, background-color .35s ease;
+}
+.adm-box:hover, .panel:hover, .adm-card:hover, .content-item:hover, .wa-preview:hover {
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, .55), 0 14px 34px rgba(124, 58, 237, .16);
+}
+.adm .order:hover {
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, .5), 0 14px 34px rgba(124, 58, 237, .16), inset 6px 0 18px -10px rgba(168, 85, 247, .5);
+}
+.order-summary > div:hover { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 10px 24px rgba(124, 58, 237, .18); }
+.side-promo:hover { box-shadow: 0 0 0 2px rgba(250, 204, 21, .6), 0 0 30px rgba(250, 204, 21, .25); }
+.adm-card:hover .adm-icon { filter: drop-shadow(0 0 8px rgba(168, 85, 247, .6)); }
+
+/* Button: upor diye alor chamak + charpashe alor dheu (nore na) */
+.adm-btn { position: relative; overflow: hidden; }
+.adm-btn::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .5), transparent); transform: skewX(-20deg);
+}
+.adm-btn:hover::after { animation: hv-shine .75s ease; }
+.adm-btn:hover { animation: hv-ring .8s ease-out; filter: brightness(1.08) saturate(1.1); }
+
+/* Filter / status tab: rongin alo + niche jhilik dag */
+.range-tabs a, .adm .tabs button { transition: box-shadow .25s ease, color .25s ease, background .25s ease; }
+.range-tabs a:not(.active):hover, .adm .tabs button:not(.active):hover {
+  color: #7c3aed; box-shadow: inset 0 -3px 0 #c084fc, 0 6px 16px rgba(124, 58, 237, .15);
+}
+
+/* Badge / pill / courier history / courier button: ujjol + charpashe alo */
+.adm .badge, .adm .chip, .adm .pill, .risk, .chist, .courier-chip, .courier-send, .courier-btn, .wa-confirm {
+  transition: filter .25s ease, box-shadow .25s ease;
+}
+.adm .badge:hover, .adm .chip:hover, .adm .pill:hover, .risk:hover, .chist:hover {
+  filter: brightness(1.12) saturate(1.15); box-shadow: 0 0 0 3px rgba(255, 255, 255, .7), 0 0 16px rgba(168, 85, 247, .45);
+}
+.courier-chip:hover, .courier-send:hover, .courier-btn:hover, .wa-confirm:hover {
+  filter: brightness(1.1); box-shadow: 0 0 0 3px rgba(192, 132, 252, .35), 0 8px 20px rgba(124, 58, 237, .25);
+}
+
+/* Link (phone, WhatsApp, edit, sob dekhun): niche rongdhonu dag tene ashe */
+.contact a, .view-all, .edit-link, .adm-main a:not([class]) {
+  background-image: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b);
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2px;
+  transition: background-size .35s ease, color .2s ease;
+}
+.contact a:hover, .view-all:hover, .edit-link:hover, .adm-main a:not([class]):hover { background-size: 100% 2px; color: #7c3aed; }
+
+/* Table / recent order er row: rongin alo + bam e begoni dag */
+.adm-table tbody tr, .recent-scroll tr, .top-list li { transition: background .25s ease, box-shadow .25s ease; }
+.adm-table tbody tr:hover, .recent-scroll tr:hover, .top-list li:hover {
+  background: linear-gradient(90deg, rgba(168, 85, 247, .12), rgba(236, 72, 153, .06), transparent) !important;
+  box-shadow: inset 4px 0 0 #a855f7;
+}
+
+/* Chart er bar: rong ujjol */
+.bars2-pair span { transition: filter .25s ease; }
+.bars2-col:hover span { filter: brightness(1.2) saturate(1.3) drop-shadow(0 0 6px rgba(168, 85, 247, .6)); }
+
+/* Input / select: begoni border + alo */
+.adm input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), .adm select, .adm textarea {
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.adm input:not([type="checkbox"]):not([type="radio"]):hover, .adm select:hover, .adm textarea:hover {
+  border-color: #c084fc; box-shadow: 0 0 0 4px rgba(192, 132, 252, .15);
+}
+
+/* Chhobi: ujjol + rongin border (zoom na) */
+.img-box img, .gal-item img, .adm-table img { transition: filter .3s ease; }
+.img-box:hover img, .gal-item:hover img, .adm-table tr:hover img { filter: brightness(1.08) saturate(1.2); }
+.img-box, .gal-item { transition: box-shadow .3s ease; }
+.img-box:hover, .gal-item:hover { box-shadow: 0 0 0 3px rgba(192, 132, 252, .5); }
+
+/* Sidebar menu: pichone rongin alo, icon jhole, lekha sonali */
+.adm-nav a { transition: background .25s ease, box-shadow .25s ease, color .25s ease; }
+.adm-nav a:hover {
+  background: linear-gradient(90deg, rgba(240, 171, 252, .16), rgba(250, 204, 21, .06)) !important;
+  box-shadow: inset 3px 0 0 #f0abfc;
+}
+.adm-nav a svg { transition: filter .25s ease; }
+.adm-nav a:hover svg { filter: drop-shadow(0 0 6px currentColor); }
+.adm-nav a:hover .nav-label { color: #ffe6a8; }
+.adm-logo-img { transition: filter .3s ease; }
+.adm-logo:hover .adm-logo-img { filter: drop-shadow(0 0 16px rgba(250, 204, 21, .7)); }
+
+/* =================== Shudhu DASHBOARD: mouse rakhle unique effect ===================
+   Card nore na — border ghire alor dhumketu ghore, mouse er niche alo, icon coin er moto ghore, number e jhilik.
+   HoverFX.js shudhu /admin page e .fx-on class ar mouse er jayga (--mx/--my) dey. */
+@property --fx-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes fx-orbit { to { --fx-a: 360deg; } }
+@keyframes fx-flip { from { transform: perspective(300px) rotateY(0); } to { transform: perspective(300px) rotateY(360deg); } }
+@keyframes fx-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(192, 132, 252, .4)); }
+  50% { filter: drop-shadow(0 0 16px rgba(192, 132, 252, .7)) drop-shadow(0 0 26px rgba(250, 204, 21, .3)); }
+}
+@keyframes fx-text-sheen { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+@keyframes fx-spot-in { from { opacity: 0; } }
+
+.fx-on { position: relative; overflow: hidden; animation: fx-glow 2s ease-in-out infinite !important; }
+.fx-spot {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .35), transparent 60%),
+    radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(192, 132, 252, .14), transparent 65%);
+  animation: fx-spot-in .25s ease;
+}
+/* Border ghire rongin alor dhumketu */
+.fx-spot::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px;
+  background: conic-gradient(from var(--fx-a), transparent 0 70%, #c084fc 82%, #f0abfc 88%, #facc15 94%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: fx-orbit 2.2s linear infinite;
+}
+.kpi .fx-spot { background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .4), transparent 60%); }
+.kpi .fx-spot::after { background: conic-gradient(from var(--fx-a), transparent 0 70%, rgba(255, 255, 255, .9) 88%, #fde68a 94%, transparent 100%); }
+/* Icon coin er moto ekbar 3D te ghore */
+.fx-on .kpi-ico, .fx-on .top-num { animation: fx-flip .9s cubic-bezier(.4, 0, .2, 1); }
+/* Number er upor diye sonali jhilik */
+.kpi.fx-on b {
+  background: linear-gradient(110deg, currentColor 40%, #fff7d6 50%, currentColor 60%) 0 0 / 250% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: fx-text-sheen 1.2s ease;
+}
+
+/* Jara animation bondho rekheche (phone/PC setting) tader jonno shob thamano */
+@media (prefers-reduced-motion: reduce) {
+  .adm *, .adm *::before, .adm *::after { animation: none !important; transition: none !important; }
+}
