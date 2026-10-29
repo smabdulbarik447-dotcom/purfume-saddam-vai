@@ -20,7 +20,7 @@ export async function POST(req) {
       phone: body.phone, ip, name: body.name, address: body.address, honeypot: body.website, settings,
     });
     if (problem?.silent) return Response.json({ ok: true, id: 0 });
-    if (problem) return Response.json({ ok: false, error: problem.error }, { status: problem.status });
+    if (problem) return Response.json({ ok: false, error: problem.error, call: problem.call }, { status: problem.status });
 
     const product = products.find((p) => p.id === Number(body.productId));
     const area = deliveryOptions(settings).find((d) => d.id === body.area);

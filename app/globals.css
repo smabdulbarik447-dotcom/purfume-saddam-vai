@@ -385,6 +385,7 @@ button { font: inherit; cursor: pointer; }
 .hadith { font-size: .85rem; color: var(--muted); background: var(--bg); padding: 10px; border-radius: 8px; }
 .privacy { font-size: .8rem; color: var(--muted); margin-bottom: 14px; }
 .error { color: var(--red); font-weight: 600; margin-bottom: 10px; }
+.call-btn { display: block; text-align: center; text-decoration: none; margin-bottom: 10px; background: #16a34a; color: #fff; }
 
 .success { text-align: center; padding: 50px 24px; }
 .success-icon {

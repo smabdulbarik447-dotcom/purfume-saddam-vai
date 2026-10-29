@@ -22,6 +22,8 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
   const [area, setArea] = useState(delivery[0].id);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
+  // Courier hishab kharap hole server ei number e call korte bole
+  const [callPhone, setCallPhone] = useState("");
   const formRef = useRef(null);
   const savedDraft = useRef("");
   const checkoutSent = useRef(false);
@@ -68,6 +70,7 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
       return;
     }
     setError("");
+    setCallPhone("");
     setStatus("loading");
     try {
       const res = await fetch("/api/order", {
@@ -85,7 +88,10 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
         }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) {
+        if (data.call) setCallPhone(data.call);
+        throw new Error(data.error);
+      }
       // Purchase ekhane pathai na — admin কনফার্ম korle server theke (Conversions API) jay
       window.dataLayer?.push({ event: "order_placed", value: total, currency: "BDT" });
       setStatus("done");
@@ -185,8 +191,11 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
             {T("privacy", "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.")}
           </p>
           {error && <p className="error">{error}</p>}
+          {callPhone && (
+            <a className="btn btn-block call-btn" href={`tel:${callPhone}`}>📞 এখনই কল করুন: {callPhone}</a>
+          )}
           <button className="btn btn-block" disabled={status === "loading"}>
-            {status === "loading" ? "অপেক্ষা করুন..." : `${T("submit_btn", "অর্ডার করুন")}  ৳ ${tk(total)}`}
+            {status === "loading" ? "অর্ডার যাচাই করা হচ্ছে..." : `${T("submit_btn", "অর্ডার করুন")}  ৳ ${tk(total)}`}
           </button>
         </div>
       </div>

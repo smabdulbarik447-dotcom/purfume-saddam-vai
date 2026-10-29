@@ -55,6 +55,13 @@ export default async function FraudPage() {
               <small className="adm-muted">প্রতিটি অর্ডারে কাস্টমারের নাম্বারের সব কুরিয়ারের রিসিভ/রিটার্ন % দেখাবে (অর্ডার পেজ ও Telegram এ)।</small>
             </label>
             <label>
+              কুরিয়ার রিসিভ রেট কমপক্ষে (%)
+              <input name="fraud_min_rate" type="number" min="0" max="100" defaultValue={s.fraud_min_rate} />
+              <small className="adm-muted">
+                এর কম হলে অর্ডার নেয় না, কাস্টমারকে কল করতে বলে। নতুন কাস্টমার (আগে পার্সেল নেই) সবসময় অর্ডার করতে পারে। ০ দিলে বন্ধ। BD Courier API Key লাগবে।
+              </small>
+            </label>
+            <label>
               নাম ও ঠিকানা যাচাই
               <select name="fraud_min_text" defaultValue={s.fraud_min_text}>
                 <option value="on">চালু — নাম কমপক্ষে ৩, ঠিকানা ১০ অক্ষর</option>
