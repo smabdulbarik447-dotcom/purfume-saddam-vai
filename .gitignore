@@ -4,3 +4,6 @@ data/orders.json
 
 .vercel
 .env*
+
+.vercel
+.env*
