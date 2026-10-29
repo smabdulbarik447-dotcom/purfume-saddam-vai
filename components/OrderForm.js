@@ -150,7 +150,11 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
           </label>
           <label>
             {T("phone_label", "মোবাইল নাম্বার")} <i>*</i>
-            <input name="phone" required inputMode="numeric" maxLength={11} placeholder="01XXXXXXXXX" />
+            <input
+              name="phone" required inputMode="numeric" maxLength={11} placeholder="01XXXXXXXXX"
+              // 11 digit hoyei draft save — server tokhoni courier hishab ane, order er shomoy wait lage na
+              onChange={(e) => e.target.value.trim().length === 11 && saveDraft()}
+            />
           </label>
           <h3 className="ship-head">{T("shipping_title", "Shipping")}</h3>
           {freeBoxes > 0 && (
