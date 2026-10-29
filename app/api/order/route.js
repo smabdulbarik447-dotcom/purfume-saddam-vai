@@ -39,13 +39,15 @@ export async function POST(req) {
     const pageUrl = String(body.pageUrl || "").slice(0, 400);
     const address = String(body.address).trim().slice(0, 500);
 
-    const [row] = await sql`
-      INSERT INTO orders (name, phone, address, product, area, qty, total, ip, fbp, fbc, user_agent, page_url)
-      VALUES (${name}, ${body.phone}, ${address}, ${product.name}, ${area.id}, ${qty}, ${total}, ${ip},
-              ${fbp}, ${fbc}, ${userAgent}, ${pageUrl})
-      RETURNING id`;
-    await sql`UPDATE products SET stock = GREATEST(stock - ${qty}, 0) WHERE id = ${product.id}`;
-    await sql`DELETE FROM incomplete_orders WHERE phone = ${body.phone}`;
+    const [[row]] = await Promise.all([
+      sql`
+        INSERT INTO orders (name, phone, address, product, area, qty, total, ip, fbp, fbc, user_agent, page_url)
+        VALUES (${name}, ${body.phone}, ${address}, ${product.name}, ${area.id}, ${qty}, ${total}, ${ip},
+                ${fbp}, ${fbc}, ${userAgent}, ${pageUrl})
+        RETURNING id`,
+      sql`UPDATE products SET stock = GREATEST(stock - ${qty}, 0) WHERE id = ${product.id}`,
+      sql`DELETE FROM incomplete_orders WHERE phone = ${body.phone}`,
+    ]);
     revalidatePath("/admin", "layout");
     // Customer ke wait na koriye Telegram e pathay
     after(() => notifyNewOrder(row.id));

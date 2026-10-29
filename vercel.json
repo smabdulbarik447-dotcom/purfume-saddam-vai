@@ -1,3 +1,4 @@
 {
+  "regions": ["sin1"],
   "crons": [{ "path": "/api/cron/steadfast", "schedule": "0 12 * * *" }]
 }
