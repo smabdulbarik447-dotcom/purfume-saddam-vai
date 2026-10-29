@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { sql, ensureTables } from "@/lib/db";
-import { notifyIncomplete } from "@/lib/telegram";
+import { notifyIncomplete, notifyLowRating } from "@/lib/telegram";
 import { getSettings } from "@/lib/store";
 import { clientIp, isBlocked, courierProblem } from "@/lib/fraud";
 
@@ -33,7 +33,10 @@ export async function POST(req) {
     ]);
     // Shudhu prothom bar Telegram e janay, protibar type korle na
     if (row?.inserted) after(() => notifyIncomplete({ phone: body.phone, name, address, product }));
-    if (courier) return Response.json({ ok: true, error: courier.error, call: courier.call });
+    if (courier) {
+      after(() => notifyLowRating({ phone: body.phone, name, history: courier.history }));
+      return Response.json({ ok: true, error: courier.error, call: courier.call });
+    }
     return Response.json({ ok: true });
   } catch (err) {
     console.error("Incomplete save failed", err);

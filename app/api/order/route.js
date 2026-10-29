@@ -3,7 +3,7 @@ import { after } from "next/server";
 import { sql, ensureTables } from "@/lib/db";
 import { getSettings, getProducts, deliveryOptions, deliveryCharge } from "@/lib/store";
 import { checkOrder, clientIp } from "@/lib/fraud";
-import { notifyNewOrder } from "@/lib/telegram";
+import { notifyNewOrder, notifyLowRating } from "@/lib/telegram";
 
 export async function POST(req) {
   const body = await req.json().catch(() => null);
@@ -20,6 +20,7 @@ export async function POST(req) {
       phone: body.phone, ip, name: body.name, address: body.address, honeypot: body.website, settings,
     });
     if (problem?.silent) return Response.json({ ok: true, id: 0 });
+    if (problem?.history) after(() => notifyLowRating({ phone: body.phone, name: body.name, history: problem.history }));
     if (problem) return Response.json({ ok: false, error: problem.error, call: problem.call }, { status: problem.status });
 
     const product = products.find((p) => p.id === Number(body.productId));

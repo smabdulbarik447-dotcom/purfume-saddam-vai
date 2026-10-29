@@ -21,10 +21,13 @@ export default async function TelegramPage() {
 
   const s = await getSettings();
   const chats = getChats(s);
-  const [hook, ...chatInfo] = await Promise.all([
+  const [me, hook, ...chatInfo] = await Promise.all([
+    tg("getMe"),
     tg("getWebhookInfo"),
     ...chats.map((id) => tg("getChat", { chat_id: id })),
   ]);
+  // Token je bot er, tar naam — onno bot er token dileo link thik thake
+  const bot = me?.result?.username || BOT_USERNAME;
   const webhookOk = hook?.result?.url?.endsWith("/api/telegram");
   const code = linkCode();
 
@@ -38,7 +41,7 @@ export default async function TelegramPage() {
       <div className="adm-grid even">
         <div className="adm-box">
           <h3>ধাপ ১ — বট চালু করুন {webhookOk ? <span className="pill st-delivered">✓ চালু</span> : <span className="pill st-cancelled">বন্ধ</span>}</h3>
-          <p className="adm-muted">বট: <b>@{BOT_USERNAME}</b></p>
+          <p className="adm-muted">বট: <b>@{bot}</b></p>
           {hook?.result?.last_error_message && (
             <p className="adm-err">শেষ সমস্যা: {hook.result.last_error_message}</p>
           )}
@@ -52,15 +55,15 @@ export default async function TelegramPage() {
           <h3 className="mt">ধাপ ২ — আপনার Telegram কানেক্ট করুন</h3>
           <p className="adm-muted">নিচের বাটনে ক্লিক করে Telegram এ <b>Start</b> চাপুন। একাধিক মানুষ বা গ্রুপ কানেক্ট করা যায়।</p>
           <div className="tg-links">
-            <a className="adm-btn" href={`https://t.me/${BOT_USERNAME}?start=${code}`} target="_blank" rel="noreferrer">
+            <a className="adm-btn" href={`https://t.me/${bot}?start=${code}`} target="_blank" rel="noreferrer">
               ✈️ আমার Telegram কানেক্ট করুন
             </a>
-            <a className="adm-btn ghost" href={`https://t.me/${BOT_USERNAME}?startgroup=${code}`} target="_blank" rel="noreferrer">
+            <a className="adm-btn ghost" href={`https://t.me/${bot}?startgroup=${code}`} target="_blank" rel="noreferrer">
               👥 গ্রুপে যোগ করুন
             </a>
           </div>
           <div className="tg-code">
-            <span>লিংকে কাজ না হলে — বটে <b>@{BOT_USERNAME}</b> এ এই কোডটা লিখে পাঠান:</span>
+            <span>লিংকে কাজ না হলে — বটে <b>@{bot}</b> এ এই কোডটা লিখে পাঠান:</span>
             <code>{code}</code>
           </div>
           <p className="adm-muted tg-warn">⚠️ এই লিংক বা কোড কাউকে দেবেন না — পেলে সে-ও অর্ডার দেখতে পারবে।</p>
