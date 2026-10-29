@@ -274,7 +274,7 @@ export default async function Home() {
           <div className="section-head">
             <h2><H text={t("order_title")} /></h2>
           </div>
-          <OrderForm products={products} delivery={delivery} freeBoxes={freeBoxes} text={formText} />
+          <OrderForm products={products} delivery={delivery} freeBoxes={freeBoxes} whatsapp={s.whatsapp} text={formText} />
         </div>
       </section>
 

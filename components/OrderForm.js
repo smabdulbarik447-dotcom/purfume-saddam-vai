@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { tk } from "@/data/site";
 
 // Facebook er browser cookie (_fbp) ar ad click id (_fbc / fbclid) — confirm er por server event e lage
@@ -15,7 +16,7 @@ function fbIds() {
 }
 
 // text: admin > ল্যান্ডিং পেজ টেক্সট er lekha (na thakle nicher default)
-export default function OrderForm({ products, delivery, freeBoxes = 0, text = {} }) {
+export default function OrderForm({ products, delivery, freeBoxes = 0, whatsapp = "", text = {} }) {
   const T = (k, d) => text[k] || d;
   const [pkg, setPkg] = useState(products[0]?.id);
   const [qty, setQty] = useState(() => Object.fromEntries(products.map((p) => [p.id, 1])));
@@ -25,6 +26,7 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
   // Courier hishab kharap hole server ei number e call korte bole
   const [callPhone, setCallPhone] = useState("");
   const callPhoneRef = useRef("");
+  const [popup, setPopup] = useState(false);
   const formRef = useRef(null);
   const savedDraft = useRef("");
   const checkoutSent = useRef(false);
@@ -68,8 +70,11 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
         callPhoneRef.current = d.call || "";
         setCallPhone(d.call || "");
         // Number bodle bhalo number dile ager lal lekha muche dei
-        if (d.call) setError(d.error);
-        else if (wasBlocked) setError("");
+        if (d.call) {
+          setError(d.error);
+          // Prothom bar dhorle popup — pore form er onno ghor theke ber hole bar bar na
+          if (!wasBlocked) setPopup(true);
+        } else if (wasBlocked) setError("");
       })
       .catch(() => {});
   }
@@ -102,7 +107,10 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        if (data.call) setCallPhone(data.call);
+        if (data.call) {
+          setCallPhone(data.call);
+          setPopup(true);
+        }
         throw new Error(data.error);
       }
       // Purchase ekhane pathai na — admin কনফার্ম korle server theke (Conversions API) jay
@@ -208,14 +216,26 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
             {T("privacy", "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.")}
           </p>
           {error && <p className="error">{error}</p>}
-          {callPhone && (
-            <a className="btn btn-block call-btn" href={`tel:${callPhone}`}>📞 এখনই কল করুন: {callPhone}</a>
-          )}
           <button className="btn btn-block" disabled={status === "loading"}>
             {status === "loading" ? "অর্ডার যাচাই করা হচ্ছে..." : `${T("submit_btn", "অর্ডার করুন")}  ৳ ${tk(total)}`}
           </button>
         </div>
       </div>
+      {popup && callPhone && createPortal(
+        <div className="call-pop" role="dialog" aria-modal="true" onClick={() => setPopup(false)}>
+          <div className="call-pop-box" onClick={(e) => e.stopPropagation()}>
+            <div className="call-pop-icon">📞</div>
+            <h3>দুঃখিত!</h3>
+            <p>{error.replace(/^দুঃখিত,\s*/, "")}।</p>
+            <a className="btn btn-block" href={`tel:${callPhone}`}>📞 কল করুন {callPhone}</a>
+            {whatsapp && (
+              <a className="call-pop-wa" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer">💬 WhatsApp এ মেসেজ দিন</a>
+            )}
+            <button type="button" className="call-pop-close" onClick={() => setPopup(false)}>বন্ধ করুন</button>
+          </div>
+        </div>,
+        document.body,
+      )}
     </form>
   );
 }

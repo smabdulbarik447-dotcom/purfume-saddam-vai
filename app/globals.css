@@ -385,7 +385,37 @@ button { font: inherit; cursor: pointer; }
 .hadith { font-size: .85rem; color: var(--muted); background: var(--bg); padding: 10px; border-radius: 8px; }
 .privacy { font-size: .8rem; color: var(--muted); margin-bottom: 14px; }
 .error { color: var(--red); font-weight: 600; margin-bottom: 10px; }
-.call-btn { display: block; text-align: center; text-decoration: none; margin-bottom: 10px; background: #16a34a; color: #fff; }
+
+/* Courier rating kom hole "call korun" popup */
+.call-pop {
+  position: fixed; inset: 0; z-index: 1000;
+  display: grid; place-items: center; padding: 16px;
+  background: rgba(5, 3, 12, .72); backdrop-filter: blur(6px);
+  animation: popFade .2s ease;
+}
+.call-pop-box {
+  width: 100%; max-width: 520px; text-align: center;
+  background: linear-gradient(180deg, var(--card), var(--bg));
+  border: 1px solid rgba(245, 196, 81, .45); border-radius: 22px;
+  padding: 28px 24px 18px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+  animation: popIn .25s ease;
+}
+.call-pop-icon {
+  width: 84px; height: 84px; margin: 0 auto 12px; display: grid; place-items: center;
+  font-size: 2.2rem; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-2), var(--gold));
+  border: 4px solid rgba(245, 196, 81, .35);
+}
+.call-pop-box h3 { color: var(--gold); font-size: 1.5rem; margin-bottom: 8px; }
+.call-pop-box p { color: var(--text); margin-bottom: 20px; }
+.call-pop-box .btn { text-decoration: none; animation: none; margin-bottom: 12px; }
+.call-pop-wa {
+  display: block; padding: 13px; border-radius: 12px; font-weight: 700; text-decoration: none;
+  background: #25d366; color: #fff; margin-bottom: 14px;
+}
+.call-pop-close { background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 6px 12px; }
+@keyframes popFade { from { opacity: 0; } }
+@keyframes popIn { from { opacity: 0; transform: scale(.92) translateY(10px); } }
 
 .success { text-align: center; padding: 50px 24px; }
 .success-icon {
