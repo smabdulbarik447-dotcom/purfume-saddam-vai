@@ -24,6 +24,7 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
   const [error, setError] = useState("");
   // Courier hishab kharap hole server ei number e call korte bole
   const [callPhone, setCallPhone] = useState("");
+  const callPhoneRef = useRef("");
   const formRef = useRef(null);
   const savedDraft = useRef("");
   const checkoutSent = useRef(false);
@@ -58,7 +59,19 @@ export default function OrderForm({ products, delivery, freeBoxes = 0, text = {}
     const key = JSON.stringify(draft);
     if (key === savedDraft.current) return;
     savedDraft.current = key;
-    fetch("/api/incomplete", { method: "POST", headers: { "Content-Type": "application/json" }, body: key }).catch(() => {});
+    fetch("/api/incomplete", { method: "POST", headers: { "Content-Type": "application/json" }, body: key })
+      .then((r) => r.json())
+      .then((d) => {
+        // Courier hishab kharap hole order chapar agei call korte boli
+        if (String(new FormData(formRef.current).get("phone")).trim() !== phone) return;
+        const wasBlocked = callPhoneRef.current;
+        callPhoneRef.current = d.call || "";
+        setCallPhone(d.call || "");
+        // Number bodle bhalo number dile ager lal lekha muche dei
+        if (d.call) setError(d.error);
+        else if (wasBlocked) setError("");
+      })
+      .catch(() => {});
   }
 
   async function onSubmit(e) {
